@@ -1,0 +1,33 @@
+{
+    "name": "php-manaus/coding-dojo-2026",
+    "description": "Coding Dojo PHP Manaus 2026 - Calculadora com TDD e PHPUnit",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^8.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dojo\\": "src/",
+            "Dojo\\Web\\": "web/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dojo\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-text"
+    },
+    "config": {
+        "platform": {
+            "php": "8.4"
+        },
+        "sort-packages": true
+    }
+}

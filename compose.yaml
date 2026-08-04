@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+    image: coding-dojo-php-manaus-2026
+    user: "${UID:-1000}:${GID:-1000}"
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "${APP_PORT:-8000}:${APP_PORT:-8000}"
+    command: ["php", "-S", "0.0.0.0:${APP_PORT:-8000}", "-t", "public"]
