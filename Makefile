@@ -7,7 +7,7 @@ COMPOSE     := docker compose
 COMPOSE_RUN := $(COMPOSE) run --rm app
 
 .DEFAULT_GOAL := help
-.PHONY: help setup build install test test-filter coverage watch up down shell clean
+.PHONY: help setup build install test test-filter coverage coverage-html watch up down shell clean
 
 help:
 	@echo "Comandos disponiveis:"
@@ -17,6 +17,7 @@ help:
 	@echo "  make test                     Roda a suite de testes"
 	@echo "  make test-filter FILTER=soma  Roda testes por nome"
 	@echo "  make coverage                 Roda os testes com relatorio de cobertura"
+	@echo "  make coverage-html            Gera o relatorio de cobertura em coverage/"
 	@echo "  make watch                    Re-roda a suite a cada alteracao"
 	@echo "  make up                       Sobe o servidor web em http://localhost:8000"
 	@echo "  make down                     Derruba os containers"
@@ -30,7 +31,7 @@ build:
 
 install: vendor/autoload.php
 
-vendor/autoload.php: composer.json
+vendor/autoload.php: composer.json $(wildcard composer.lock)
 	$(COMPOSE_RUN) composer install
 
 test: vendor/autoload.php
@@ -41,6 +42,9 @@ test-filter: vendor/autoload.php
 
 coverage: vendor/autoload.php
 	$(COMPOSE_RUN) vendor/bin/phpunit --coverage-text
+
+coverage-html: vendor/autoload.php
+	$(COMPOSE_RUN) vendor/bin/phpunit --coverage-html coverage
 
 watch: vendor/autoload.php
 	@command -v inotifywait >/dev/null 2>&1 || { echo "instale inotify-tools para usar make watch"; exit 1; }

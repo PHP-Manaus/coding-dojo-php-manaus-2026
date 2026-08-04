@@ -5,6 +5,8 @@ declare(strict_types=1);
 $autoload = dirname(__DIR__) . '/vendor/autoload.php';
 
 if (!is_file($autoload)) {
+    http_response_code(500);
+
     exit('Dependencias nao instaladas. Rode: make install');
 }
 

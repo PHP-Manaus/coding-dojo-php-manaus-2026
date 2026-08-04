@@ -26,7 +26,7 @@
         </header>
 
         <main id="conteudo">
-            <form class="formulario" method="get" action="/">
+            <form class="formulario" method="get">
                 <fieldset class="grupo-campos">
                     <legend class="grupo-campos__legenda">Valores</legend>
 
@@ -87,7 +87,7 @@
                             </dt>
                             <dd class="cartao__valor">
                                 <?php if ($resultado !== null): ?>
-                                    <?= $this->numero($resultado) ?>
+                                    <?= $this->valor($resultado) ?>
                                 <?php elseif ($entrada->estaValida()): ?>
                                     <span class="status-pendente">a implementar</span>
                                 <?php else: ?>

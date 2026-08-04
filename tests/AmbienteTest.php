@@ -13,6 +13,6 @@ final class AmbienteTest extends TestCase
     #[Test]
     public function o_autoload_enxerga_a_classe_calculadora(): void
     {
-        $this->assertInstanceOf(Calculadora::class, new Calculadora());
+        $this->assertTrue(class_exists(Calculadora::class));
     }
 }

@@ -32,6 +32,7 @@ Se o `make test` passou, o ambiente está funcionando e o dojo pode começar.
 | `make test` | Roda a suíte de testes |
 | `make test-filter FILTER=soma` | Roda só os testes que casam com o nome |
 | `make coverage` | Suíte + relatório de cobertura no terminal |
+| `make coverage-html` | Gera o relatório de cobertura em `coverage/` |
 | `make watch` | Re-roda a suíte a cada alteração (precisa do `inotify-tools`) |
 | `make up` | Sobe o servidor em http://localhost:8000 |
 | `make down` | Derruba os containers |
@@ -42,6 +43,8 @@ Os alvos instalam as dependências sozinhos caso o `vendor/` não exista, então
 direto no `make test` depois de clonar.
 
 Para trocar a porta do servidor: `APP_PORT=8087 make up`.
+
+O `make up` usa o servidor embutido do PHP, que é feito para desenvolvimento.
 
 ## Estrutura
 
@@ -58,7 +61,8 @@ Para trocar a porta do servidor: `APP_PORT=8087 make up`.
 ├── src/                 o desafio, namespace Dojo\
 │   └── Calculadora.php
 ├── tests/               namespace Dojo\Tests\
-│   └── AmbienteTest.php teste de fumaça, pode apagar
+│   ├── AmbienteTest.php teste de fumaça, pode apagar
+│   └── Web/             testes do código de apresentação
 └── web/                 código de apresentação, namespace Dojo\Web\
     ├── EntradaFormulario.php  lê e valida o que veio no $_GET
     ├── FormatadorNumero.php   exibe número no formato pt-BR
