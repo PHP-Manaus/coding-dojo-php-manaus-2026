@@ -29,7 +29,9 @@ Se o `make test` passou, o ambiente está funcionando e o dojo pode começar.
 | --- | --- |
 | `make help` | Lista todos os comandos |
 | `make setup` | Prepara o projeto do zero (imagem + dependências) |
-| `make test` | Roda a suíte de testes |
+| `make test` | Roda os testes do dojo (código de `src/`) |
+| `make test-web` | Roda os testes do código de apresentação (`web/`) |
+| `make test-all` | Roda todas as suítes |
 | `make test-filter FILTER=soma` | Roda só os testes que casam com o nome |
 | `make coverage` | Suíte + relatório de cobertura no terminal |
 | `make coverage-html` | Gera o relatório de cobertura em `coverage/` |
@@ -62,7 +64,7 @@ O `make up` usa o servidor embutido do PHP, que é feito para desenvolvimento.
 │   └── Calculadora.php
 ├── tests/               namespace Dojo\Tests\
 │   ├── AmbienteTest.php teste de fumaça, pode apagar
-│   └── Web/             testes do código de apresentação
+│   └── Web/             testes do código de apresentação (suíte Web)
 └── web/                 código de apresentação, namespace Dojo\Web\
     ├── EntradaFormulario.php  lê e valida o que veio no $_GET
     ├── FormatadorNumero.php   exibe número no formato pt-BR
@@ -83,6 +85,11 @@ o único diretório medido pelo relatório de cobertura.
 
 `web/` contém o código de apresentação: leitura do formulário, formatação de número e
 geração do HTML. Não deve conter regra de negócio.
+
+Os testes ficam em duas suítes do PHPUnit. A `Dojo` é a padrão e reúne tudo em `tests/`,
+menos `tests/Web/`: é ela que o `make test` e o `make watch` rodam, então só aparecem os
+testes escritos durante o dojo. A `Web` cobre o código de apresentação, que já vem pronto,
+e roda com `make test-web`. Para rodar as duas, use `make test-all`.
 
 `public/index.php` recebe a requisição, usa as classes de `web/` para montar os dados da
 página e é o ponto onde a `Calculadora` será chamada.

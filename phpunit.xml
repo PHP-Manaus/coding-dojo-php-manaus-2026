@@ -3,6 +3,7 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          cacheDirectory=".phpunit.cache"
+         defaultTestSuite="Dojo"
          colors="true"
          failOnWarning="true"
          failOnRisky="true"
@@ -11,6 +12,10 @@
     <testsuites>
         <testsuite name="Dojo">
             <directory>tests</directory>
+            <exclude>tests/Web</exclude>
+        </testsuite>
+        <testsuite name="Web">
+            <directory>tests/Web</directory>
         </testsuite>
     </testsuites>
 

@@ -7,14 +7,16 @@ COMPOSE     := docker compose
 COMPOSE_RUN := $(COMPOSE) run --rm app
 
 .DEFAULT_GOAL := help
-.PHONY: help setup build install test test-filter coverage coverage-html watch up down shell clean
+.PHONY: help setup build install test test-web test-all test-filter coverage coverage-html watch up down shell clean
 
 help:
 	@echo "Comandos disponiveis:"
 	@echo "  make setup                    Prepara o projeto do zero (imagem + dependencias)"
 	@echo "  make build                    Constroi a imagem Docker"
 	@echo "  make install                  Instala as dependencias do Composer"
-	@echo "  make test                     Roda a suite de testes"
+	@echo "  make test                     Roda os testes do dojo (src/)"
+	@echo "  make test-web                 Roda os testes do codigo de apresentacao (web/)"
+	@echo "  make test-all                 Roda todas as suites"
 	@echo "  make test-filter FILTER=soma  Roda testes por nome"
 	@echo "  make coverage                 Roda os testes com relatorio de cobertura"
 	@echo "  make coverage-html            Gera o relatorio de cobertura em coverage/"
@@ -36,6 +38,12 @@ vendor/autoload.php: composer.json $(wildcard composer.lock)
 
 test: vendor/autoload.php
 	$(COMPOSE_RUN) vendor/bin/phpunit
+
+test-web: vendor/autoload.php
+	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Web
+
+test-all: vendor/autoload.php
+	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Dojo,Web
 
 test-filter: vendor/autoload.php
 	$(COMPOSE_RUN) vendor/bin/phpunit --filter "$(FILTER)"
