@@ -11,6 +11,10 @@
     <testsuites>
         <testsuite name="Dojo">
             <directory>tests</directory>
+            <exclude>tests/Web</exclude>
+        </testsuite>
+        <testsuite name="Web">
+            <directory>tests/Web</directory>
         </testsuite>
     </testsuites>
 
