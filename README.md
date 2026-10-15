@@ -29,11 +29,11 @@ Se o `make test` passou, o ambiente está funcionando e o dojo pode começar.
 | --- | --- |
 | `make help` | Lista todos os comandos |
 | `make setup` | Prepara o projeto do zero (imagem + dependências) |
-| `make test` | Roda os testes do dojo (código de `src/`) |
-| `make test-web` | Roda os testes do código de apresentação (`web/`) |
+| `make test` | Roda a suíte `Dojo` (`tests/`, menos `tests/Web/`) |
+| `make test-web` | Roda a suíte `Web` (`tests/Web/`) |
 | `make test-all` | Roda todas as suítes |
-| `make test-filter FILTER=soma` | Roda só os testes que casam com o nome |
-| `make coverage` | Suíte + relatório de cobertura no terminal |
+| `make test-filter FILTER=soma` | Roda só os testes que casam com o nome, em todas as suítes |
+| `make coverage` | Suíte `Dojo` + relatório de cobertura no terminal |
 | `make coverage-html` | Gera o relatório de cobertura em `coverage/` |
 | `make watch` | Re-roda a suíte a cada alteração (precisa do `inotify-tools`) |
 | `make up` | Sobe o servidor em http://localhost:8000 |
@@ -86,10 +86,11 @@ o único diretório medido pelo relatório de cobertura.
 `web/` contém o código de apresentação: leitura do formulário, formatação de número e
 geração do HTML. Não deve conter regra de negócio.
 
-Os testes ficam em duas suítes do PHPUnit. A `Dojo` é a padrão e reúne tudo em `tests/`,
-menos `tests/Web/`: é ela que o `make test` e o `make watch` rodam, então só aparecem os
-testes escritos durante o dojo. A `Web` cobre o código de apresentação, que já vem pronto,
-e roda com `make test-web`. Para rodar as duas, use `make test-all`.
+Os testes ficam em duas suítes do PHPUnit. A `Dojo` reúne tudo em `tests/`, menos
+`tests/Web/`: é ela que o `make test`, o `make watch` e o `make coverage` rodam, então só
+aparecem os testes escritos durante o dojo. A `Web` cobre o código de apresentação, que já
+vem pronto, e roda com `make test-web`. O `make test-all`, o `make test-filter` e o
+`composer test` rodam todas as suítes.
 
 `public/index.php` recebe a requisição, usa as classes de `web/` para montar os dados da
 página e é o ponto onde a `Calculadora` será chamada.

@@ -14,11 +14,11 @@ help:
 	@echo "  make setup                    Prepara o projeto do zero (imagem + dependencias)"
 	@echo "  make build                    Constroi a imagem Docker"
 	@echo "  make install                  Instala as dependencias do Composer"
-	@echo "  make test                     Roda os testes do dojo (src/)"
-	@echo "  make test-web                 Roda os testes do codigo de apresentacao (web/)"
+	@echo "  make test                     Roda a suite Dojo (tests/, menos tests/Web)"
+	@echo "  make test-web                 Roda a suite Web (tests/Web)"
 	@echo "  make test-all                 Roda todas as suites"
-	@echo "  make test-filter FILTER=soma  Roda testes por nome"
-	@echo "  make coverage                 Roda os testes com relatorio de cobertura"
+	@echo "  make test-filter FILTER=soma  Roda testes por nome, em todas as suites"
+	@echo "  make coverage                 Roda a suite Dojo com relatorio de cobertura"
 	@echo "  make coverage-html            Gera o relatorio de cobertura em coverage/"
 	@echo "  make watch                    Re-roda a suite a cada alteracao"
 	@echo "  make up                       Sobe o servidor web em http://localhost:8000"
@@ -37,22 +37,22 @@ vendor/autoload.php: composer.json $(wildcard composer.lock)
 	$(COMPOSE_RUN) composer install
 
 test: vendor/autoload.php
-	$(COMPOSE_RUN) vendor/bin/phpunit
+	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Dojo
 
 test-web: vendor/autoload.php
 	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Web
 
 test-all: vendor/autoload.php
-	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Dojo,Web
+	$(COMPOSE_RUN) vendor/bin/phpunit
 
 test-filter: vendor/autoload.php
 	$(COMPOSE_RUN) vendor/bin/phpunit --filter "$(FILTER)"
 
 coverage: vendor/autoload.php
-	$(COMPOSE_RUN) vendor/bin/phpunit --coverage-text
+	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Dojo --coverage-text
 
 coverage-html: vendor/autoload.php
-	$(COMPOSE_RUN) vendor/bin/phpunit --coverage-html coverage
+	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Dojo --coverage-html coverage
 
 watch: vendor/autoload.php
 	@command -v inotifywait >/dev/null 2>&1 || { echo "instale inotify-tools para usar make watch"; exit 1; }
