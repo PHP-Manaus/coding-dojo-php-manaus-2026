@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dojo\Tests;
+namespace Dojo\Tests\Ambiente;
 
 use Dojo\Calculadora;
 use PHPUnit\Framework\Attributes\Test;

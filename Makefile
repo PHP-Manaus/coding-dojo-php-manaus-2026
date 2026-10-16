@@ -6,15 +6,19 @@ export GID
 COMPOSE     := docker compose
 COMPOSE_RUN := $(COMPOSE) run --rm app
 
+DOJO_TEST_FILES = $(shell find tests -name '*.php' -not -path 'tests/Ambiente/*' -not -path 'tests/Web/*')
+PHPUNIT_DOJO    = vendor/bin/phpunit --testsuite Dojo $(if $(DOJO_TEST_FILES),,--do-not-fail-on-empty-test-suite)
+
 .DEFAULT_GOAL := help
-.PHONY: help setup build install test test-web test-all test-filter coverage coverage-html watch up down shell clean
+.PHONY: help setup build install test test-ambiente test-web test-all test-filter coverage coverage-html watch up down shell clean
 
 help:
 	@echo "Comandos disponiveis:"
 	@echo "  make setup                    Prepara o projeto do zero (imagem + dependencias)"
 	@echo "  make build                    Constroi a imagem Docker"
 	@echo "  make install                  Instala as dependencias do Composer"
-	@echo "  make test                     Roda a suite Dojo (tests/, menos tests/Web)"
+	@echo "  make test                     Roda a suite Dojo (tests/, menos tests/Ambiente e tests/Web)"
+	@echo "  make test-ambiente            Roda a suite Ambiente (confere se o ambiente funciona)"
 	@echo "  make test-web                 Roda a suite Web (tests/Web)"
 	@echo "  make test-all                 Roda todas as suites"
 	@echo "  make test-filter FILTER=soma  Roda testes por nome, em todas as suites"
@@ -37,7 +41,10 @@ vendor/autoload.php: composer.json $(wildcard composer.lock)
 	$(COMPOSE_RUN) composer install
 
 test: vendor/autoload.php
-	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Dojo
+	$(COMPOSE_RUN) $(PHPUNIT_DOJO)
+
+test-ambiente: vendor/autoload.php
+	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Ambiente
 
 test-web: vendor/autoload.php
 	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Web
@@ -49,10 +56,10 @@ test-filter: vendor/autoload.php
 	$(COMPOSE_RUN) vendor/bin/phpunit --filter "$(FILTER)"
 
 coverage: vendor/autoload.php
-	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Dojo --coverage-text
+	$(COMPOSE_RUN) $(PHPUNIT_DOJO) --coverage-text
 
 coverage-html: vendor/autoload.php
-	$(COMPOSE_RUN) vendor/bin/phpunit --testsuite Dojo --coverage-html coverage
+	$(COMPOSE_RUN) $(PHPUNIT_DOJO) --coverage-html coverage
 
 watch: vendor/autoload.php
 	@command -v inotifywait >/dev/null 2>&1 || { echo "instale inotify-tools para usar make watch"; exit 1; }
