@@ -23,8 +23,13 @@ make test-ambiente
 
 Se o `make test-ambiente` passou, o ambiente está funcionando e o dojo pode começar.
 
-Antes do primeiro teste do dojo, o `make test` mostra "No tests executed!". É o esperado:
-a suíte `Dojo` só tem os testes escritos durante o dojo.
+Antes do primeiro teste do dojo, o `make test` mostra "No tests executed!" e não falha. É
+o esperado: a suíte `Dojo` só tem os testes escritos durante o dojo.
+
+O PHPUnit só encontra arquivos cujo nome termina em `Test.php`, como
+`tests/CalculadoraTest.php`. Se já existe arquivo PHP em `tests/` (fora de `Ambiente/` e
+`Web/`) e nenhum teste foi encontrado, o `make test` falha com "No tests executed!": confira
+o nome do arquivo.
 
 ## Comandos
 
