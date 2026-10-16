@@ -18,10 +18,13 @@ do primeiro pelo segundo. Os campos se chamam `num1` e `num2`, e seus valores ch
 
 ```bash
 make setup
-make test
+make test-ambiente
 ```
 
-Se o `make test` passou, o ambiente está funcionando e o dojo pode começar.
+Se o `make test-ambiente` passou, o ambiente está funcionando e o dojo pode começar.
+
+Antes do primeiro teste do dojo, o `make test` mostra "No tests executed!". É o esperado:
+a suíte `Dojo` só tem os testes escritos durante o dojo.
 
 ## Comandos
 
@@ -29,7 +32,8 @@ Se o `make test` passou, o ambiente está funcionando e o dojo pode começar.
 | --- | --- |
 | `make help` | Lista todos os comandos |
 | `make setup` | Prepara o projeto do zero (imagem + dependências) |
-| `make test` | Roda a suíte `Dojo` (`tests/`, menos `tests/Web/`) |
+| `make test` | Roda a suíte `Dojo` (`tests/`, menos `tests/Ambiente/` e `tests/Web/`) |
+| `make test-ambiente` | Roda a suíte `Ambiente` (confere se o ambiente funciona) |
 | `make test-web` | Roda a suíte `Web` (`tests/Web/`) |
 | `make test-all` | Roda todas as suítes |
 | `make test-filter FILTER=soma` | Roda só os testes que casam com o nome, em todas as suítes |
@@ -42,7 +46,7 @@ Se o `make test` passou, o ambiente está funcionando e o dojo pode começar.
 | `make clean` | Remove `vendor/`, caches e cobertura |
 
 Os alvos instalam as dependências sozinhos caso o `vendor/` não exista, então dá para ir
-direto no `make test` depois de clonar.
+direto no `make test-ambiente` depois de clonar.
 
 Para trocar a porta do servidor: `APP_PORT=8087 make up`.
 
@@ -63,7 +67,7 @@ O `make up` usa o servidor embutido do PHP, que é feito para desenvolvimento.
 ├── src/                 o desafio, namespace Dojo\
 │   └── Calculadora.php
 ├── tests/               namespace Dojo\Tests\
-│   ├── AmbienteTest.php teste de fumaça, pode apagar
+│   ├── Ambiente/        teste de fumaça do ambiente (suíte Ambiente)
 │   └── Web/             testes do código de apresentação (suíte Web)
 └── web/                 código de apresentação, namespace Dojo\Web\
     ├── EntradaFormulario.php  lê e valida o que veio no $_GET
@@ -86,11 +90,12 @@ o único diretório medido pelo relatório de cobertura.
 `web/` contém o código de apresentação: leitura do formulário, formatação de número e
 geração do HTML. Não deve conter regra de negócio.
 
-Os testes ficam em duas suítes do PHPUnit. A `Dojo` reúne tudo em `tests/`, menos
-`tests/Web/`: é ela que o `make test`, o `make watch` e o `make coverage` rodam, então só
-aparecem os testes escritos durante o dojo. A `Web` cobre o código de apresentação, que já
-vem pronto, e roda com `make test-web`. O `make test-all`, o `make test-filter` e o
-`composer test` rodam todas as suítes.
+Os testes ficam em três suítes do PHPUnit. A `Dojo` reúne tudo em `tests/`, menos
+`tests/Ambiente/` e `tests/Web/`: é ela que o `make test`, o `make watch` e o
+`make coverage` rodam, então só aparecem os testes escritos durante o dojo. A `Ambiente`
+confere se Docker, Composer e autoload estão funcionando, e roda com `make test-ambiente`.
+A `Web` cobre o código de apresentação, que já vem pronto, e roda com `make test-web`. O
+`make test-all`, o `make test-filter` e o `composer test` rodam todas as suítes.
 
 `public/index.php` recebe a requisição, usa as classes de `web/` para montar os dados da
 página e é o ponto onde a `Calculadora` será chamada.
