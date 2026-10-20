@@ -25,7 +25,8 @@ make test-ambiente
 Se o `make test-ambiente` passou, o ambiente está funcionando e o dojo pode começar.
 
 Os testes da `Calculadora` já estão prontos em `tests/CalculadoraTest.php` e, antes da
-implementação, o `make test` mostra todos falhando. É o esperado: o trabalho do dojo é
+implementação, o `make test` mostra todos vermelhos, a maioria com `Call to undefined
+method`, porque os métodos ainda não existem. É o esperado: o trabalho do dojo é
 implementar `src/Calculadora.php` até a suíte ficar verde.
 
 ## Comandos
@@ -113,9 +114,14 @@ Ao preencher a chave com o valor devolvido pela `Calculadora`, o cartão passa a
 resultado. Os números já chegam validados e convertidos em `$entrada->numero1` e
 `$entrada->numero2`.
 
+O número 2 pode ser zero, e nesse caso a `divisao` e o `resto` da `Calculadora` lançam
+`InvalidArgumentException`. Capture a exceção em `public/index.php` e coloque a mensagem
+dela na chave: o cartão aceita texto e exibe a mensagem no lugar do número.
+
 ## O ritmo do dojo
 
-1. Escolha um cenário que está falhando, por exemplo `make test-filter FILTER=soma`.
+1. Escolha um cenário que está falhando e rode só ele pelo nome do teste, como aparece em
+   `tests/CalculadoraTest.php`: `make test-filter FILTER=subtrai_dois_numeros`.
 2. Implemente na `Calculadora` o código mais simples que faz esse cenário passar.
 3. Rode a suíte inteira, confira que nada quebrou e siga para o próximo cenário.
 

@@ -75,15 +75,16 @@ final class CalculadoraTest extends TestCase
     public function nao_calcula_resto_com_divisor_zero(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Não é possível dividir por zero.');
 
         $this->calculadora->resto(5, 0);
     }
 
     #[Test]
     #[DataProvider('operacoes')]
-    public function calcula_e_descreve_o_resultado(float $num1, float $num2, string $operacao, string $esperado): void
+    public function calcula_e_descreve_o_resultado(float $numero1, float $numero2, string $operacao, string $esperado): void
     {
-        $this->assertSame($esperado, $this->calculadora->calcular($num1, $num2, $operacao));
+        $this->assertSame($esperado, $this->calculadora->calcular($numero1, $numero2, $operacao));
     }
 
     public static function operacoes(): array
