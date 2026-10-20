@@ -1,7 +1,8 @@
 # Coding Dojo PHP Manaus 2026
 
-Esqueleto do dojo deste ano. A ideia é praticar TDD com PHPUnit em PHP puro, com tudo
-rodando via Docker. Ninguém precisa instalar PHP na própria máquina.
+Esqueleto do dojo deste ano. A ideia é implementar uma calculadora em PHP puro, guiada por
+testes PHPUnit que já vêm prontos, com tudo rodando via Docker. Ninguém precisa instalar
+PHP na própria máquina.
 
 ## O desafio
 
@@ -23,13 +24,9 @@ make test-ambiente
 
 Se o `make test-ambiente` passou, o ambiente está funcionando e o dojo pode começar.
 
-Antes do primeiro teste do dojo, o `make test` mostra "No tests executed!" e não falha. É
-o esperado: a suíte `Dojo` só tem os testes escritos durante o dojo.
-
-O PHPUnit só encontra arquivos cujo nome termina em `Test.php`, como
-`tests/CalculadoraTest.php`. Se já existe arquivo PHP em `tests/` (fora de `Ambiente/` e
-`Web/`) e nenhum teste foi encontrado, o `make test` falha com "No tests executed!": confira
-o nome do arquivo.
+Os testes da `Calculadora` já estão prontos em `tests/CalculadoraTest.php` e, antes da
+implementação, o `make test` mostra todos falhando. É o esperado: o trabalho do dojo é
+implementar `src/Calculadora.php` até a suíte ficar verde.
 
 ## Comandos
 
@@ -72,6 +69,7 @@ O `make up` usa o servidor embutido do PHP, que é feito para desenvolvimento.
 ├── src/                 o desafio, namespace Dojo\
 │   └── Calculadora.php
 ├── tests/               namespace Dojo\Tests\
+│   ├── CalculadoraTest.php  cenários do desafio (suíte Dojo)
 │   ├── Ambiente/        teste de fumaça do ambiente (suíte Ambiente)
 │   └── Web/             testes do código de apresentação (suíte Web)
 └── web/                 código de apresentação, namespace Dojo\Web\
@@ -97,7 +95,7 @@ geração do HTML. Não deve conter regra de negócio.
 
 Os testes ficam em três suítes do PHPUnit. A `Dojo` reúne tudo em `tests/`, menos
 `tests/Ambiente/` e `tests/Web/`: é ela que o `make test`, o `make watch` e o
-`make coverage` rodam, então só aparecem os testes escritos durante o dojo. A `Ambiente`
+`make coverage` rodam, então só aparecem os testes da `Calculadora`. A `Ambiente`
 confere se Docker, Composer e autoload estão funcionando, e roda com `make test-ambiente`.
 A `Web` cobre o código de apresentação, que já vem pronto, e roda com `make test-web`. O
 `make test-all`, o `make test-filter` e o `composer test` rodam todas as suítes.
@@ -117,6 +115,9 @@ resultado. Os números já chegam validados e convertidos em `$entrada->numero1`
 
 ## O ritmo do dojo
 
-1. Red: escreva um teste que falha, descrevendo o próximo comportamento desejado.
-2. Green: escreva o código mais simples que faz o teste passar.
-3. Refactor: melhore o código com a suíte verde te protegendo.
+1. Escolha um cenário que está falhando, por exemplo `make test-filter FILTER=soma`.
+2. Implemente na `Calculadora` o código mais simples que faz esse cenário passar.
+3. Rode a suíte inteira, confira que nada quebrou e siga para o próximo cenário.
+
+Dica: deixe o `make watch` aberto num terminal para ver os cenários passando a cada
+alteração.
