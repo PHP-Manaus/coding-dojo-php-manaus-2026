@@ -6,8 +6,7 @@ export GID
 COMPOSE     := docker compose
 COMPOSE_RUN := $(COMPOSE) run --rm app
 
-DOJO_TEST_FILES = $(shell find tests -name '*.php' -not -path 'tests/Ambiente/*' -not -path 'tests/Web/*')
-PHPUNIT_DOJO    = vendor/bin/phpunit --testsuite Dojo $(if $(DOJO_TEST_FILES),,--do-not-fail-on-empty-test-suite)
+PHPUNIT_DOJO := vendor/bin/phpunit --testsuite Dojo
 
 .DEFAULT_GOAL := help
 .PHONY: help setup build install test test-ambiente test-web test-all test-filter coverage coverage-html watch up down shell clean
@@ -39,6 +38,7 @@ install: vendor/autoload.php
 
 vendor/autoload.php: composer.json $(wildcard composer.lock)
 	$(COMPOSE_RUN) composer install
+	@touch $@
 
 test: vendor/autoload.php
 	$(COMPOSE_RUN) $(PHPUNIT_DOJO)
