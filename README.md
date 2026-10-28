@@ -114,6 +114,18 @@ Ao preencher a chave com o valor devolvido pela `Calculadora`, o cartão passa a
 resultado. Os números já chegam validados e convertidos em `$entrada->numero1` e
 `$entrada->numero2`.
 
+A soma já vem ligada, como exemplo:
+
+```php
+if ($entrada->estaValida()) {
+    $calculadora = new Dojo\Calculadora();
+
+    $resultados['soma'] = $calculadora->soma($entrada->numero1, $entrada->numero2);
+}
+```
+
+Falta preencher, no mesmo bloco, a `diferenca`, o `produto`, a `divisao` e o `resto`.
+
 O número 2 pode ser zero, e nesse caso a `divisao` e o `resto` da `Calculadora` lançam
 `InvalidArgumentException`. Capture a exceção em `public/index.php` e coloque a mensagem
 dela na chave: o cartão aceita texto e exibe a mensagem no lugar do número.

@@ -22,6 +22,12 @@ $resultados = [
     'resto' => null,
 ];
 
+if ($entrada->estaValida()) {
+    $calculadora = new Dojo\Calculadora();
+
+    $resultados['soma'] = $calculadora->soma($entrada->numero1, $entrada->numero2);
+}
+
 $renderizador = new Dojo\Web\Renderizador(dirname(__DIR__) . '/web/templates');
 
 echo $renderizador->renderizar('calculadora', [
